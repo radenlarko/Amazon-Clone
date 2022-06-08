@@ -12,7 +12,7 @@ const Product = ({ id, title, price, description, category, image }) => {
   return (
     <div>
       <p>{category}</p>
-      <Image src={image} width={200} height={200} objectFit="contain" />
+      <Image src={image} width={200} height={200} objectFit="contain" alt="product-amazon" />
       <h4>{title}</h4>
       <div className="flex">
         {Array(rating)
