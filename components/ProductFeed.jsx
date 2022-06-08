@@ -6,7 +6,7 @@ const ProductFeed = ({ products }) => {
     <div>
       <h1>Products</h1>
       <div>
-        {products.map(({ id, title, price, description, category, image }) => (
+        {products?.map(({ id, title, price, description, category, image }) => (
           <Product
             key={id}
             id={id}
