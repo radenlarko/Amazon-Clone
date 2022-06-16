@@ -1,10 +1,15 @@
+import { useSession } from "next-auth/react";
 import Image from "next/image";
+import CurrencyFormat from "react-currency-format";
 import { useSelector } from "react-redux";
+import CheckoutProduct from "../components/CheckoutProduct";
 import Header from "../components/Header";
-import { selectItems } from "../slices/basketSlice";
+import { selectItems, selectTotal } from "../slices/basketSlice";
 
 const Checkout = () => {
+  const { data: session } = useSession();
   const items = useSelector(selectItems);
+  const total = useSelector(selectTotal);
   return (
     <div className="bg-gray-100">
       <Header />
@@ -24,7 +29,47 @@ const Checkout = () => {
                 ? "Your Shopping Basket is empty."
                 : "Shopping Basket"}
             </h1>
+            {items.map((item, idx) => (
+              <CheckoutProduct
+                key={idx}
+                id={item.id}
+                title={item.title}
+                rating={item.rating}
+                price={item.price}
+                description={item.description}
+                category={item.category}
+                image={item.image}
+                hasPrime={item.hasPrime}
+              />
+            ))}
           </div>
+        </div>
+
+        <div className="flex flex-col bg-white p-10 shadow-md">
+          {items.length > 0 && (
+            <>
+              <h2 className="whitespace-nowrap">
+                Subtotal ({items.length} items):{" "}
+                <span className="font-bold">
+                  <CurrencyFormat
+                    value={total}
+                    displayType={"text"}
+                    thousandSeparator
+                    prefix="£"
+                  />
+                </span>
+              </h2>
+              <button
+                disabled={!session}
+                className={`button mt-2 ${
+                  !session &&
+                  "from-gray-300 to-gray-500 border-gray-200 text-gray-300 cursor-not-allowed"
+                }`}
+              >
+                {!session ? "Sign In to Checkout" : "Proceed to Checkout"}
+              </button>
+            </>
+          )}
         </div>
       </main>
     </div>
