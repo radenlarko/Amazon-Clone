@@ -12,7 +12,7 @@ import { selectItems } from "../slices/basketSlice";
 const Header = () => {
   const { data: session } = useSession();
   const router = useRouter();
-  const items = useSelector(selectItems)
+  const items = useSelector(selectItems);
   return (
     <header>
       <div className="flex items-center bg-amazon_blue p-1 flex-grow py-2">
@@ -39,7 +39,10 @@ const Header = () => {
             <p>{session ? `Hello ${session.user.name}` : "Sign In"}</p>
             <p className="font-extrabold md:text-sm">Account & Lists</p>
           </div>
-          <div className="link">
+          <div
+            onClick={() => router.push("/orders")}
+            className="link"
+          >
             <p>Returns</p>
             <p className="font-extrabold md:text-sm">& Orders</p>
           </div>
